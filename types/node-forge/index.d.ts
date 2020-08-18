@@ -501,12 +501,23 @@ declare module "node-forge" {
             composed: boolean;
             value: Bytes | Asn1[];
         }
-
+        interface ValidatorSchema {
+            name?: string,
+            tagClass: Class,
+            type: Type,
+            constructed?: boolean,
+            capture?: string,
+            captureAsn1?: string,
+            optional?: boolean,
+            value?: Bytes | ValidatorSchema[];
+        }
         function create(tagClass: Class, type: Type, constructed: boolean, value: Bytes | Asn1[]): Asn1;
         function fromDer(bytes: Bytes | util.ByteBuffer, strict?: boolean): Asn1;
         function toDer(obj: Asn1): util.ByteBuffer;
         function oidToDer(oid: OID): util.ByteStringBuffer;
         function derToOid(der: util.ByteStringBuffer): OID;
+        function validate(obj: Asn1,v: ValidatorSchema, capture: {[key: string]: any | undefined;}, errors: string[]): Boolean;
+    
     }
 
     namespace util {
